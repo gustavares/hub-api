@@ -8,11 +8,17 @@ import (
 	"syscall"
 
 	"github.com/gustavares/hub-api/server/http"
+	"github.com/gustavares/hub-api/server/http/router"
 )
 
 func main() {
 	ctx := context.Background()
-	httpServer := http.New()
+
+	r := router.New(
+		router.WithRoutes(http.HealthcheckRoutes()...),
+	)
+
+	httpServer := http.New(r.Router.Handler)
 	httpServer.Run()
 
 	shutdown := make(chan os.Signal, 2)

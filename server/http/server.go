@@ -6,7 +6,6 @@ import (
 	"log"
 	"time"
 
-	"github.com/gustavares/hub-api/server/http/router"
 	"github.com/valyala/fasthttp"
 )
 
@@ -14,13 +13,7 @@ type server struct {
 	HTTPServer *fasthttp.Server
 }
 
-func New() *server {
-	r := router.New(
-		router.WithRoutes(HealthcheckRoutes()...),
-	)
-
-	h := r.Router.Handler
-
+func New(h fasthttp.RequestHandler) *server {
 	return &server{
 		HTTPServer: &fasthttp.Server{
 			Handler:              h,
