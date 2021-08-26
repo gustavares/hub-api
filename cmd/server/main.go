@@ -9,14 +9,13 @@ import (
 
 	"github.com/gustavares/hub-api/server/http"
 	"github.com/gustavares/hub-api/server/http/router"
+	"github.com/gustavares/hub-api/server/http/routes"
 )
 
 func main() {
 	ctx := context.Background()
 
-	r := router.New(
-		router.WithRoutes(http.HealthcheckRoutes()...),
-	)
+	r := router.New(routes.BuildRoutes())
 
 	httpServer := http.New(r.Router.Handler)
 	httpServer.Run()
