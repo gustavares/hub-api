@@ -5,14 +5,6 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
-var (
-	WithRoutes = func(routes ...Route) ConfigRouter {
-		return func(router *Router) {
-			router.AddRoutes(routes...)
-		}
-	}
-)
-
 type Route struct {
 	Path    string
 	Method  string
@@ -24,19 +16,16 @@ type Router struct {
 
 type ConfigRouter func(router *Router)
 
-func New(configs ...ConfigRouter) Router {
+func New(routes *[]Route) Router {
 	r := &Router{
 		Router: httprouter.New(),
 	}
-
-	for _, config := range configs {
-		config(r)
-	}
+	r.addRoutes(*routes...)
 
 	return *r
 }
 
-func (r Router) AddRoutes(routes ...Route) {
+func (r Router) addRoutes(routes ...Route) {
 	for _, route := range routes {
 		r.Router.Handle(route.Method, route.Path, route.Handler)
 	}

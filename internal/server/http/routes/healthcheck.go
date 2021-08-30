@@ -1,7 +1,8 @@
-package http
+package routes
 
 import (
-	"github.com/gustavares/hub-api/server/http/router"
+	"github.com/gustavares/hub-api/internal/server/http"
+	"github.com/gustavares/hub-api/internal/server/http/router"
 	"github.com/valyala/fasthttp"
 )
 
@@ -10,12 +11,12 @@ func HealthcheckRoutes() []router.Route {
 		{
 			Path:    "/healthcheck",
 			Method:  fasthttp.MethodGet,
-			Handler: HealthcheckHandler(),
+			Handler: http.HealthcheckHandler(),
 		},
 		{
 			Path:    "/readiness",
 			Method:  fasthttp.MethodGet,
-			Handler: ReadinessHandler(),
+			Handler: http.ReadinessHandler(),
 		},
 	}
 }
